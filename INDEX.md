@@ -6,4 +6,4 @@
 | --- | --- | --- |
 | documentation-workflow | dev | Use when creating or changing a skill or project that requires a versioned decision paper trail in CHANGELOG.md. |
 | orchestration | dev | Use when a non-trivial development task should be decomposed across orchestrator, implementer, and independent reviewer roles behind a pull-request review gate. |
-| tdd-gate | dev | Use when implementation must wait for Stephen to review and approve a runnable test or explicit assertion list committed to the branch. |
+| tdd-gate | dev | Use when implementation must wait for the owner to review and approve a runnable test or explicit assertion list committed to the branch. |
