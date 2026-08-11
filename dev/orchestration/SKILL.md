@@ -24,9 +24,18 @@ env: macos>=12
    Work:     orchestrator=Sonnet,        implementer=Sonnet,               reviewer=Opus
    ```
 7. Require the implementer to work on a branch, commit the output, and open a PR; never enable auto-merge or merge the PR.
-8. Require the independent reviewer to inspect the branch and tests, then report findings for Stephen's review.
-9. Have the orchestrator rerun relevant checks and inspect the actual diff before trusting either sub-agent's report.
-10. Stop at the review gate and leave the merge decision to Stephen.
+8. Require the independent reviewer to inspect the branch and tests, then post its findings **as comments in the MR** for Stephen's review.
+9. **MR comment discipline (mandatory):** all agent review activity happens *in the MR*, not in private/side channels:
+   - Each agent posts its review comments **as comments on the MR** (or inline on the diff).
+   - When agents respond to each other (implementer answering a reviewer concern, reviewer
+     re-checking after a fix), they do so **in the MR comment threads**, replying to the relevant
+     thread — not in a separate doc.
+   - **Every comment is labeled with the commenting role + model**, format:
+     `(Implementer: <model>)` e.g. `(Implementer: Codex)`, and `(Reviewer: <model>)` e.g.
+     `(Reviewer: Claude)`. This makes the audit trail unambiguous about who said what.
+   - The orchestrator may also post a coordinating comment labeled `(Orchestrator: <model>)`.
+10. Have the orchestrator rerun relevant checks and inspect the actual diff before trusting either sub-agent's report.
+11. Stop at the review gate and leave the merge decision to Stephen.
 
 ## Pitfalls
 - DON'T assume sub-agents discover or load repository skills without explicit injection.
@@ -34,9 +43,12 @@ env: macos>=12
 - DON'T spend the highest-cost model on every high-volume dispatch by default.
 - DON'T trust completion claims without inspecting the diff and rerunning checks.
 - DON'T push directly to `main`, enable auto-merge, or merge before Stephen approves the PR.
+- DON'T let agents report review findings anywhere but the MR (no side docs/chat). Every MR
+  comment MUST carry its role+model label `(Implementer: <model>)` / `(Reviewer: <model>)`.
 
 ## Verify
 - Assert that the branch has a PR against `main`, auto-merge is disabled, the implementer and reviewer are different agents, both briefs include the matched skill content, and the orchestrator's recorded checks pass.
+- Assert MR comment discipline: all agent findings are posted as MR comments (not side channels), agent replies happen in MR comment threads, and every comment is labeled with its role+model e.g. `(Implementer: Codex)`, `(Reviewer: Claude)`.
 
 ## Non-use / Scope
 - Do not spin agents for tiny edits, deterministic scripts, or security-critical paths; handle those directly or use a dedicated security-controlled workflow.
