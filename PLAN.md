@@ -117,7 +117,12 @@ Each skill folder ALSO contains a `CHANGELOG.md` recording the project-style pap
 - Versioning: SEMANTIC primary `vX.Y.Z` (MAJOR = structural change, MINOR = content/step
   change, PATCH = fix/typo) PLUS a `YYYY-MM-DD` last-updated date on every entry.
   Format: `## v1.2.0 — 2026-08-06`.
-- Every entry has a **DECISION** line (the "why"). No entry without a reason.
+- **Version increments ONLY after merge to `main`.** Iterations within a PR (review comments,
+  fixes before merge) do NOT bump the version — keep the same version and record changes as part
+  of that version's entry (or an in-flight note). A version number implies "merged and settled."
+- Every entry has a **DECISION** line (the "why"). No entry without a reason. MR comment
+  discipline: review comments must communicate the CODE DECISION (what was decided and why) with
+  role+model labels, so the audit trail is unambiguous.
 - `REJECTED` is encouraged — captures paths tried and dropped (mirrors resume v1-v10).
 - CHANGELOG stays SEPARATE from SKILL.md (SKILL.md = "what/how"; CHANGELOG = "why/when").
 
