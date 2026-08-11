@@ -24,7 +24,7 @@ env: macos>=12
    Work:     orchestrator=Sonnet,        implementer=Sonnet,               reviewer=Opus
    ```
 7. Require the implementer to work on a branch, commit the output, and open a PR; never enable auto-merge or merge the PR.
-8. Require the independent reviewer to inspect the branch and tests, then post its findings **as comments in the MR** for Stephen's review.
+8. Require the independent reviewer to inspect the branch and tests, then post its findings **as comments in the MR** for the owner's review.
 9. **MR comment discipline (mandatory):** all agent review activity happens *in the MR*, not in private/side channels:
    - Each agent posts its review comments **as comments on the MR** (or inline on the diff).
    - When agents respond to each other (implementer answering a reviewer concern, reviewer
@@ -35,14 +35,14 @@ env: macos>=12
      `(Reviewer: Claude)`. This makes the audit trail unambiguous about who said what.
    - The orchestrator may also post a coordinating comment labeled `(Orchestrator: <model>)`.
 10. Have the orchestrator rerun relevant checks and inspect the actual diff before trusting either sub-agent's report.
-11. Stop at the review gate and leave the merge decision to Stephen.
+11. Stop at the review gate and leave the merge decision to the owner.
 
 ## Pitfalls
 - DON'T assume sub-agents discover or load repository skills without explicit injection.
 - DON'T let the implementer review its own work or reuse the same agent as reviewer.
 - DON'T spend the highest-cost model on every high-volume dispatch by default.
 - DON'T trust completion claims without inspecting the diff and rerunning checks.
-- DON'T push directly to `main`, enable auto-merge, or merge before Stephen approves the PR.
+- DON'T push directly to `main`, enable auto-merge, or merge before the owner approves the PR.
 - DON'T let agents report review findings anywhere but the MR (no side docs/chat). Every MR
   comment MUST carry its role+model label `(Implementer: <model>)` / `(Reviewer: <model>)`.
 
