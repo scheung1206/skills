@@ -4,13 +4,20 @@
 - CHANGED: Added one canonical task brief shared identically with the implementer and reviewer,
   defining Goal, Constraints, Acceptance checks, and Out-of-scope as the task's single source of
   truth. Added a mandatory black-box fitness review in which the reviewer evaluates every change
-  for necessity, simplicity, actual problem fit, and over-engineering.
+  for necessity, simplicity, actual problem fit, over-engineering, and constraint breaches.
 - DECISION: A shared, explicit brief prevents the implementer and reviewer from optimizing against
-  different interpretations, while the four-question fitness framework makes review test whether
+  different interpretations, while the five-question fitness framework makes review test whether
   the output satisfies the orchestrator's task instead of stopping at mechanical correctness or
-  code cleanliness.
+  code cleanliness. The Constraints field was kept (not dropped) and wired into a fifth review
+  question because hard limits (no new deps, personal Mac only, projects/ never exported) are
+  frequently the first thing AI agents quietly violate while "solving" a task.
 - MODEL: validated against the orchestrator/implementer/reviewer pattern; model assignments remain
   swappable example configurations in SKILL.md.
+- REJECTED: dropping the Constraints field to satisfy "minimal brief" — rejected because
+  constraint breaches are a distinct failure mode from scope creep and deserve an explicit check;
+  cutting it would hide the most common AI slip. Also rejected: adding a sixth "style/format"
+  question — out of scope for fitness-to-task.
+- NOTE: Version stays v1.1.0 through PR iteration. Version increments ONLY after merge to main.
 
 ## v1.0.0 — 2026-08-06
 - ADDED: Role-separated orchestration (orchestrator / implementer / independent reviewer), explicit

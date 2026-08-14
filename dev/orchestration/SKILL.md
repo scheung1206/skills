@@ -69,6 +69,9 @@ env: macos>=12
   - **"Are we overthinking / over-engineering it?"** AI agents tend to spiral by adding
     abstractions, edge-case handling, and speculative features beyond the brief. Flag and cut
     anything that does not map to an acceptance check.
+  - **"Does this violate a stated Constraint?"** The brief lists hard Constraints the work must
+    respect; the reviewer confirms nothing breaks them (e.g. "no new dependencies," "personal Mac
+    only," "projects/ never exported"). A constraint breach is a fail regardless of how clean the code.
 - The reviewer challenges necessity and scope and may request removal of code that does not trace
   to an acceptance check.
 
@@ -76,7 +79,7 @@ env: macos>=12
 - DON'T assume sub-agents discover or load repository skills without explicit injection.
 - DON'T let the implementer review its own work or reuse the same agent as reviewer.
 - DON'T let the reviewer only verify that the code runs or is clean; it must judge fitness to the
-  orchestrator's task through the four questions above.
+  orchestrator's task through the five questions above.
 - DON'T let the implementer add features or abstractions beyond the brief; the reviewer must flag
   scope creep and gold-plating.
 - DON'T let the orchestrator's brief be vague; vague briefs cause both under- and over-building,
@@ -92,7 +95,7 @@ env: macos>=12
 ## Verify
 - Assert that the branch has a PR against `main`, auto-merge is disabled, the implementer and reviewer are different agents, both briefs include the matched skill content, and the orchestrator's recorded checks pass.
 - Assert that the reviewer brief contains the **identical canonical task brief** the implementer
-  received, and that the reviewer's posted findings explicitly address all four fitness questions
+  received, and that the reviewer's posted findings explicitly address all five fitness questions
   for every change (or state why a question is N/A for a given change).
 - Assert MR comment discipline: all agent findings are posted as MR comments (not side channels),
   agents actively participate in MR threads (implementer addresses every reviewer comment and
