@@ -1,5 +1,17 @@
 # orchestration — Changelog
 
+## v1.1.0 — 2026-08-14 (in-flight, pending merge)
+- CHANGED: Added one canonical task brief shared identically with the implementer and reviewer,
+  defining Goal, Constraints, Acceptance checks, and Out-of-scope as the task's single source of
+  truth. Added a mandatory black-box fitness review in which the reviewer evaluates every change
+  for necessity, simplicity, actual problem fit, and over-engineering.
+- DECISION: A shared, explicit brief prevents the implementer and reviewer from optimizing against
+  different interpretations, while the four-question fitness framework makes review test whether
+  the output satisfies the orchestrator's task instead of stopping at mechanical correctness or
+  code cleanliness.
+- MODEL: validated against the orchestrator/implementer/reviewer pattern; model assignments remain
+  swappable example configurations in SKILL.md.
+
 ## v1.0.0 — 2026-08-06
 - ADDED: Role-separated orchestration (orchestrator / implementer / independent reviewer), explicit
   skill injection into sub-agent briefs, model-assignment guidance (strong model on sparse
