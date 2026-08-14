@@ -1,5 +1,12 @@
 # orchestration — Changelog
 
+## v1.2.0 — 2026-08-14 (in-flight, pending merge)
+- CHANGED: Extended orchestration with an owner sign-off gate before dispatch (Step 3: owner brief with positive AND negative use cases + assertable acceptance checks), a hard two-round review limit escalating to the owner (Step 11), a decomposition rule split by architectural seam not size (Step 1), assertable acceptance checks (eval-harness pattern, Step 2), a review-granularity guard, a post-merge learning loop (Step 14), and cross-references to sibling skills.
+- DECISION: The owner must approve the brief before tokens are spent so we do not build the wrong thing confidently; the two-round cap prevents indefinite review/implementation spirals (the exact failure mode the fitness framework targets); assertable checks let the reviewer execute rather than eyeball; the learning loop makes process knowledge compound per the library's stated purpose.
+- MODEL: validated against the orchestrator/implementer/reviewer pattern; model assignments remain swappable example configurations in SKILL.md.
+- REJECTED: per-file review enumeration (spiral risk), auto-merging after round 2 (removes owner from the loop), and splitting tasks by size rather than seam (integration risk).
+- NOTE: Version stays v1.2.0 through PR iteration. Version increments ONLY after merge to main.
+
 ## v1.1.0 — 2026-08-14 (in-flight, pending merge)
 - CHANGED: Added one canonical task brief shared identically with the implementer and reviewer,
   defining Goal, Constraints, Acceptance checks, and Out-of-scope as the task's single source of
