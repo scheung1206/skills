@@ -23,7 +23,7 @@ env: macos>=12
 1. Decompose the request by **architectural seam, not size**. Parallelize only independent pieces that cannot conflict (separate worktrees/files); serialize dependent tasks. If a task comfortably fits one agent's context, keep it as one agent — splitting a small task is itself over-engineering. Produce bounded tasks, acceptance checks, and role ownership.
 2. Author **one canonical task brief** (Goal / Constraints / Out-of-scope) plus an **executable spec (TDD artifact)** as the single source of truth. The executable spec is a committed, runnable test or assertion list — produced via the `tdd-gate` skill — that fails before implementation and passes only when the task is correctly built. This artifact, not the prose brief, is the definition of "correct." The brief's positive and negative use cases become the spec's test cases (see the eval-harness pattern for the generic runner).
 3. **Owner brief & sign-off (gate before dispatch).** Produce a concise owner-facing brief: the Goal, the exact use cases being tackled (including **positive AND negative cases**), and the executable spec. Obtain owner sign-off on BOTH the brief and the executable spec **before** dispatching the implementer — the owner is approving the *definition of done* (the runnable test), not merely a description. Do not spend implementation tokens until the owner approves.
-4. Scan `INDEX.md` descriptions for relevant skills, load each matched `SKILL.md` and any sanitized `references/`, and inject that content into each sub-agent brief because sub-agents do not self-discover skills. Because the executable spec must be produced and approved before any code, also load `tdd-gate` (lives in this repo) and require the implementer to follow it: commit the TDD artifact first, obtain the owner's green-light on it (Step 3), then implement only enough to satisfy the approved artifact.
+4. Scan `INDEX.md` descriptions for relevant skills, load each matched `SKILL.md` and any sanitized `references/`, and inject that content into each sub-agent brief because sub-agents do not self-discover skills. Because the orchestrator already produced and obtained owner sign-off on the executable spec in Step 3 (which IS tdd-gate's green-light, not a separate approval), the implementer does NOT re-run tdd-gate's gate — it executes only tdd-gate Steps 7-8: implement just enough to satisfy the approved artifact, then open the PR.
 5. Brief the implementer with the canonical task brief, matched skill content, branch name, and requirement to write code and open a PR without merging. The implementer builds **only** to the brief and does not expand scope beyond its acceptance checks.
 6. Brief the reviewer with the **same canonical task brief, identical to what the implementer received**, plus the matched skill content, TDD or tests, and implementer output. Require the reviewer to be a different agent from the implementer and to judge the output against the orchestrator's stated task. The reviewer MUST run the exact TDD command the owner approved and confirm it passes, and that the brief's positive and negative use cases are represented as cases in the artifact — judgment of fitness is against the approved spec, not the implementer's retrofit.
 7. Assign models deliberately: use an expensive, slow model for review because calls are few and correctness value is high; use cheap, fast models for high-volume orchestration and implementation where marginal value is lower.
@@ -49,8 +49,7 @@ env: macos>=12
     speculative?
   - **"Is there a better / simpler way?"** Were simpler alternatives considered, and did the
     implementation choose the minimal approach?
-  - **"Does this actually solve the problem?"** Does it meet the orchestrator's Goal + Acceptance
-    checks, or does it merely resemble a solution?
+  - **"Does this actually solve the problem?"** Does it satisfy the orchestrator's Goal + the approved executable spec (its positive and negative cases), or does it merely resemble a solution?
   - **"Are we overthinking / over-engineering it?"** AI agents tend to spiral by adding
     abstractions, edge-case handling, and speculative features beyond the brief. Flag and cut
     anything that does not map to an acceptance check.
@@ -69,7 +68,7 @@ env: macos>=12
 - DON'T let the implementer add features or abstractions beyond the brief; the reviewer must flag
   scope creep and gold-plating.
 - DON'T let the orchestrator's brief be vague; vague briefs cause both under- and over-building,
-  so the brief must state Goal + Acceptance checks + Out-of-scope.
+  so the brief must state Goal + Constraints + Out-of-scope, and the executable spec (TDD artifact) carries the acceptance cases.
 - DON'T spend the highest-cost model on every high-volume dispatch by default.
 - DON'T trust completion claims without inspecting the diff and rerunning checks.
 - DON'T push directly to `main`, enable auto-merge, or merge before the owner approves the PR.
