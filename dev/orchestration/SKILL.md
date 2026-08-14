@@ -13,10 +13,11 @@ env: macos>=12
 - Load this skill when a non-trivial development task benefits from separate orchestration, implementation, and review roles.
 
 ## Related skills
-- `claude-code` — dispatch the implementer/reviewer as Claude Code sub-agents.
-- `codex` — dispatch as OpenAI Codex CLI agents.
-- `tdd-gate` — require the runnable test/assertion list before implementation starts.
-- `subagent-driven-development` — context-budget and parallel-worktree mechanics for multi-agent runs.
+- `tdd-gate` — require the runnable test/assertion list before implementation starts (lives in this repo).
+- `claude-code` — dispatch implementer/reviewer as Claude Code sub-agents (Hermes skill; not yet in this repo).
+- `codex` — dispatch as OpenAI Codex CLI agents (Hermes skill; not yet in this repo).
+- `subagent-driven-development` — context-budget and parallel-worktree mechanics (Hermes skill; not yet in this repo).
+- eval-harness pattern — acceptance checks must be runnable assertions (see `generic/eval-harness`, planned; until then: a check is assertable if a command/assertion passes or fails).
 
 ## Steps
 1. Decompose the request by **architectural seam, not size**. Parallelize only independent pieces that cannot conflict (separate worktrees/files); serialize dependent tasks. If a task comfortably fits one agent's context, keep it as one agent — splitting a small task is itself over-engineering. Produce bounded tasks, acceptance checks, and role ownership.
@@ -31,7 +32,7 @@ env: macos>=12
 10. **MR comment discipline (mandatory):** all agent review activity happens *in the MR*, not in private/side channels, and agents must **actively participate in the MR comment threads** — not just post once and leave:
    - Each agent posts its review comments **as comments on the MR** (or inline on the diff).
    - **The implementer MUST actively respond to every reviewer comment:** reply in the same thread, address the concern (fix committed + linked, or justify why not), and resolve the thread. Silence on a reviewer comment is not allowed — every thread reaches a resolved state.
-   - **The reviewer MUST actively re-review after the implementer's fix** and reply in-thread confirming the concern is resolved (or re-raising it). The review loop continues until the reviewer signals done — in the MR, not elsewhere.
+   - **The reviewer MUST actively re-review after the implementer's fix** and reply in-thread confirming the concern is resolved (or re-raising it). The review loop continues until the reviewer signals done — subject to the **two-round limit in Step 11** — in the MR, not elsewhere.
    - **Every comment is labeled with the commenting role + model**, format: `(Implementer: <model>)` e.g. `(Implementer: Codex)`, and `(Reviewer: <model>)` e.g. `(Reviewer: Claude)`. This makes the audit trail unambiguous about who said what.
    - The orchestrator may also post a coordinating comment labeled `(Orchestrator: <model>)` and is responsible for keeping the MR thread moving toward resolution.
 11. **Review round limit (anti-spiral).** Allow at most **two review rounds**: Implementer → Reviewer → Implementer → Reviewer. After round 2, **stop further implementation and escalate to the owner**; the implementer does not proceed without an explicit owner decision. This caps review/implementation loops that would otherwise run indefinitely.
@@ -90,10 +91,11 @@ env: macos>=12
   agents actively participate in MR threads (implementer addresses every reviewer comment and
   resolves it; reviewer re-reviews after fixes and confirms), and every comment is labeled with
   its role+model e.g. `(Implementer: Codex)`, `(Reviewer: Claude)`.
-- Assert the owner signed off the brief (Step 3) before the implementer was dispatched.
-- Assert the review loop stopped at round 2 and escalated to the owner (no round 3 without an explicit owner decision).
+- Assert the owner signed off the brief (Step 3) before the implementer was dispatched — evidence is the owner's explicit approval message (or a posted `(Owner: approved)` comment on the brief), not merely the brief's existence.
+- Assert the review loop escalated to the owner once it reached round 2 (no round 3 without an explicit owner decision) — if the reviewer approved at round 1, this asserts only that the cap was not exceeded.
 - Assert acceptance checks are assertable (runnable) and the reviewer executed them rather than only reading.
 - Assert review findings include a PR-level summary (granularity guard).
+- Assert a post-merge learning-loop entry was captured (a CHANGELOG update or skill revision noting what worked/failed).
 
 ## Non-use / Scope
 - Do not spin agents for tiny edits, deterministic scripts, or security-critical paths; handle those directly or use a dedicated security-controlled workflow.
