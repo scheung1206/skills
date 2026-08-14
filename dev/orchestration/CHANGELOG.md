@@ -6,6 +6,7 @@
 - MODEL: validated against the orchestrator/implementer/reviewer pattern; model assignments remain swappable example configurations in SKILL.md.
 - REJECTED: per-file review enumeration (spiral risk), auto-merging after round 2 (removes owner from the loop), and splitting tasks by size rather than seam (integration risk).
 - REVIEW-FIXES (post independent black-box review): linked Step 10's unbounded review loop to the Step 11 two-round cap; marked `claude-code`/`codex`/`subagent-driven-development`/`eval-harness` as not-yet-in-this-repo (aspirational, not dead links); added Verify assertions for the learning loop and explicit sign-off evidence; relaxed the round-cap Verify wording so round-1 approval is not misread as requiring escalation.
+- CORRECTNESS: acceptance criteria are now an owner-approved, committed TDD artifact (via tdd-gate) that defines "correct" before any code; the reviewer runs the approved command and confirms positive/negative-case coverage. This guarantees agents build/validate the correct thing rather than reinterpret a prose brief.
 - NOTE: Version stays v1.2.0 through PR iteration. Version increments ONLY after merge to main.
 
 ## v1.1.0 — 2026-08-14 (in-flight, pending merge)
