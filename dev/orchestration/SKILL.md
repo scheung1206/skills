@@ -44,8 +44,8 @@ env: macos>=12
 - The reviewer's job is **not** to confirm only that the code compiles, runs, or lints, or that it
   "looks reasonable." The reviewer must confirm that the output is **fit for the orchestrator's
   task** through a black-box check against the canonical brief.
-- For every change the implementer made, the reviewer MUST explicitly answer:
-  - **"Why do we need this?"** Is the change necessary; does it earn its place, or is it
+- For the MR as a change-set, the reviewer MUST explicitly answer the five questions below. "Every change" means every **notable change in the MR** (new behavior, removed code, architectural shifts, new dependencies) — not every individual line or file. Trivial lines (formatting, imports, obvious glue) are covered by the overall PR-level summary and do not each require a separate answer; this is the granularity guard against review spiraling into per-line enumeration.
+  - **"Why do we need this?"** For each notable change: is it necessary; does it earn its place, or is it
     speculative?
   - **"Is there a better / simpler way?"** Were simpler alternatives considered, and did the
     implementation choose the minimal approach?
@@ -85,7 +85,8 @@ env: macos>=12
 - Assert that the branch has a PR against `main`, auto-merge is disabled, the implementer and reviewer are different agents, both briefs include the matched skill content, and the orchestrator's recorded checks pass.
 - Assert that the reviewer brief contains the **identical canonical task brief** the implementer
   received, and that the reviewer's posted findings explicitly address all five fitness questions
-  for every change (or state why a question is N/A for a given change).
+  at the MR change-set level — for each notable change (not every line/file), or state why a
+  question is N/A for the MR overall.
 - Assert MR comment discipline: all agent findings are posted as MR comments (not side channels),
   agents actively participate in MR threads (implementer addresses every reviewer comment and
   resolves it; reviewer re-reviews after fixes and confirms), and every comment is labeled with
