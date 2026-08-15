@@ -44,7 +44,7 @@ The reviewer's primary purpose is to ensure the change **improves the task's out
 
 ### What the reviewer looks for (in priority order)
 1. **Design** — Do the pieces fit? Does the change belong here, or in a library / different layer? Does it integrate well with the rest of the system? Is now the right time?
-2. **Functionality** — Does it do what we intended (per the approved spec)? Is what we intended actually good for the user/owner? Think about edge cases; the reviewer should reason about bugs by reading, not assume the implementer tested them. **The reviewer verifies functionality by running the approved TDD command**, not by trusting the implementer's claim.
+2. **Functionality** — Does it do what we intended (per the approved spec)? Is what we intended actually good for the user/owner? Think about edge cases; the reviewer should reason about bugs by reading, not assume the implementer tested them. **The reviewer verifies functionality by running the approved TDD command** (owner-authored, not the implementer's retrofit), not by trusting the implementer's claim.
 3. **Complexity / over-engineering** — Is the change more complex than it needs to be? A particular failure mode: **over-engineering** — making the code more generic than needed, or adding functionality not presently required. **Reviewers must be especially vigilant about this.** Solve the problem we know needs solving *now*; do not build for a future we haven't reached. This is the primary anti-spiral safeguard.
 4. **Tests** — Are the acceptance checks correct, sensible, and useful? Do they actually fail when the code is broken? (For AI-generated changes, the reviewer runs them — see Step 6.)
 5. **Naming / comments / style** — Clear names; comments explain *why*, not *what*; follow existing style. Non-critical polish gets a `Nit:` prefix and is not blocking.
@@ -55,7 +55,7 @@ The reviewer's primary purpose is to ensure the change **improves the task's out
 - **Then one verdict paragraph.** In plain prose: *Does this do what we set out to build? What would I cut or change, and why?* The "what I'd cut" naturally covers necessity, simplicity, and over-engineering — the reviewer need not hit separate boxes.
 - **Block only on real degradation:** spec failure, constraint breach, or genuine over-engineering. Everything else is a `Nit:` or an optional suggestion.
 - **Technical facts/data overrule opinions.** Design is weighed on principles, not personal preference.
-- **Granularity:** review at the MR change-set level — each *notable* change (new behavior, removed code, architectural shifts, new deps), not every line or file. Trivial lines are covered by the overall verdict.
+- **Granularity (deliberate deviation from Google's "Every Line"):** Google expects human reviewers to read every line. For AI-agent review at volume, we instead review at the MR change-set level — each *notable* change (new behavior, removed code, architectural shifts, new deps), not every line or file. Trivial lines are covered by the overall verdict. This is a conscious tradeoff: line-by-line enumeration is exactly the review-spiral risk this skill exists to prevent, and the objective spec-trace (above) already covers correctness. If a diff is small and high-risk, the reviewer may still go line-by-line.
 
 ## Pitfalls
 - DON'T assume sub-agents discover or load repository skills without explicit injection.
