@@ -1,6 +1,6 @@
 # orchestration — Changelog
 
-## v1.3.0 — 2026-08-14 (in-flight, pending merge)
+## v1.3.0 — 2026-08-15 (MERGED via #5)
 - RESTRUCTURE: Collapsed the v1.2.0 prose into a canonical "Core rules (R1–R9)" block stated once (was triplicated across Design-decisions/Pitfalls/Verify), split core flow from optional Modes (Parallel, future Lightweight), externalized the Google reviewer standard to a summary + reference rather than inline weight, added an explicit Failure off-ramp (escalate immediately when reviewer/implementer are stuck or spec is ambiguous mid-flight), and dropped aspirational dead "Related skills" references. Goal: less ritual-compliance surface, more checkable process.
 - ADDED: `verify.py` — a machine-checkable gate runner that asserts the objective R1–R7 gates from git/MR state (PR targets main + auto-merge off; implementer≠reviewer; owner sign-off before first impl commit; TDD commit precedes impl commit; reviewer spec-trace + verdict present; role+model labels; ≤2 review rounds; parallel ownership declared; CHANGELOG learning-loop). Exits non-zero on failure. Does NOT judge code quality (reviewer's job). This operationalizes the skill's own honesty rule: process adherence is a command, not a hope.
 - DECISION (authoring split enforced in build): SKILL.md prose authored by orchestrator; `verify.py` is code logic → implemented by Codex, reviewed by Claude, merged by owner.
