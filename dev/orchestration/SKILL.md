@@ -31,7 +31,7 @@ These are the only hard rules. Everything else elaborates them.
 4. **Inject skills + brief agents.** Scan `INDEX.md`, load matched `SKILL.md`/`references/`, inject into each sub-agent brief (sub-agents do not self-discover). Brief implementer and reviewer with the *identical* canonical brief + matched skill content + approved TDD command.
 5. **Implement (R3/R2).** Implementer works on a branch, builds only to the approved spec, opens a PR, never merges.
 6. **Review (R3/R4).** Independent reviewer (different agent) runs the approved TDD command, traces each acceptance check (pass/fail + how verified), and writes one honest verdict paragraph (see Reviewer standard). Posts findings as MR comments.
-7. **MR discipline (R5/R6).** Every comment labeled `(Role: <model>)`. Implementer addresses every reviewer comment and resolves it; reviewer re-reviews after fixes. Loop until reviewer signals done, capped at two rounds (R6).
+7. **MR discipline (R5/R6) — the posted review loop.** Every comment labeled `(Role: <model>)`. The review is a **loop, not a one-shot**, and **every turn is POSTED to the MR as a comment** (R5) — no turn (reviewer verdict, implementer fix-response, re-review verdict) is "done" until its comment is posted; a verdict that lives only in a local file or chat is not a review-of-record. The loop: (a) reviewer posts verdict + spec-trace; (b) if CHANGES REQUESTED, the implementer fixes, commits, and posts a fix-response comment stating *what changed + how verified* (per finding, with real exit codes) — not "fixed per review"; (c) reviewer re-reviews the updated PR and posts a NEW review comment. Repeat until the reviewer signals done, capped at two rounds (R6). If GitHub rejects a formal APPROVE vote with `422: cannot approve your own pull request` (the PR author is the owner's account and the reviewer has no separate GitHub identity), the posted MR comment still stands as the review-of-record — the owner clicks approve.
 8. **Verify + gate (R7/R4).** Orchestrator runs `python3 verify.py --pr <n>`; all gates must pass. Stop at the gate; owner merges.
 9. **Learning loop.** After merge, capture what worked/failed into CHANGELOG (a DECISION/REJECTED line). Not fire-and-forget.
 
@@ -58,7 +58,8 @@ If the reviewer and implementer are stuck (same concern reopened, or spec is amb
 - DON'T parallelize without pre-declared non-overlapping file ownership, or parallelize review.
 - DON'T write acceptance checks as prose — they must be runnable (eval-harness pattern).
 - DON'T split a task that fits one agent; splitting by size adds coordination cost.
-- DON'T let agents report anywhere but the MR; every comment carries its `(Role: <model>)` label and threads resolve.
+- DON'T let agents report anywhere but the MR; every comment carries its `(Role: <model>)` label and threads resolve. A review verdict left only in a local file or chat is not a review-of-record — it MUST be posted as an MR comment (R5).
+
 
 ## Verify
 Run `python3 verify.py --pr <n>`. The script asserts the objective gates (R1–R7) from git/MR state and exits non-zero on any failure. It does **not** judge code quality (that is the reviewer's job). Gates checked:
