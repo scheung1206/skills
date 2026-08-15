@@ -133,7 +133,7 @@ Each skill folder ALSO contains a `CHANGELOG.md` recording the project-style pap
 - `INDEX.md` is the agent's entry point: a flat table of every skill with `tier` + short
   `trigger`. An agent scans INDEX.md to decide relevance, then loads the specific SKILL.md.
 - **INDEX.md is SCRIPT-GENERATED**, not hand-maintained. A generator script (in repo root,
-  e.g. `gen-index.py`) walks `generic/`, `dev/`, `projects/*/` , reads each SKILL.md frontmatter,
+  e.g. `refresh-skills-index.py`) walks `generic/`, `dev/`, `projects/*/` , reads each SKILL.md frontmatter,
   and emits INDEX.md. Run it on every skill add/edit/remove so the index never drifts.
 - Rationale: a hand-maintained index goes stale; generation keeps discovery accurate at scale
   without manual toil. (Alternative considered: no index, agent reads all frontmatter on demand
@@ -157,7 +157,7 @@ Each skill folder ALSO contains a `CHANGELOG.md` recording the project-style pap
 
 1. New skill starts from `SKILL-TEMPLATE.md`.
 2. Before saving, append a `CHANGELOG.md` v1.0.0 entry (ADDED + DECISION + date).
-3. **Run `gen-index.py`** to regenerate INDEX.md (never hand-edit INDEX.md).
+3. **Run `refresh-skills-index.py`** to regenerate INDEX.md (never hand-edit INDEX.md).
 4. Verify the skill is processable: frontmatter valid, sections present, Verify is assertable.
 5. Git-commit on personal GitHub (`scheung1206/skills`); commit history proves provenance.
 
@@ -191,7 +191,7 @@ this to implementation: review the test before the code.
 1. **Tier boundaries**: `generic` = tool-agnostic no-IP procedures; `dev` = development-workflow
    & rule skills (process/meta, forkable); `projects` = per-project subfolders, personal-only.
 2. **Versioning**: semantic primary `vX.Y.Z` + `YYYY-MM-DD` last-updated date. RESOLVED.
-3. **INDEX.md**: SCRIPT-GENERATED via `gen-index.py`. RESOLVED (alternative: hand-maintained
+3. **INDEX.md**: SCRIPT-GENERATED via `refresh-skills-index.py`. RESOLVED (alternative: hand-maintained
    rejected as drift-prone; no-index rejected as O(N)).
 4. **GitHub repo**: `scheung1206/skills` on personal GitHub. RESOLVED.
 5. **Initial implementation scope (after approval) — `dev/` ONLY, three skills:**
@@ -252,7 +252,7 @@ this to implementation: review the test before the code.
 
 ## 9. Pending (resolve at/after approval)
 
-- [ ] Author `gen-index.py` (walks tiers, parses frontmatter, emits INDEX.md; warn if SKILL.md
+- [ ] Author `refresh-skills-index.py` (walks tiers, parses frontmatter, emits INDEX.md; warn if SKILL.md
       newer than its CHANGELOG).
 - [ ] Implement the THREE `dev/` skills: orchestration (w/ injection step), tdd-gate,
       documentation-workflow — each with frontmatter (status/env), references/ as needed, CHANGELOG

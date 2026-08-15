@@ -6,7 +6,7 @@ After building, open a PR for Stephen's review; do NOT merge (Hard Rule: MR revi
 
 ## What to build (ONLY these — `generic/` and `projects/` are NOT built yet)
 
-1. `gen-index.py` at repo root — walks `generic/`, `dev/`, `projects/*/`, parses each SKILL.md
+1. `refresh-skills-index.py` at repo root — walks `generic/`, `dev/`, `projects/*/`, parses each SKILL.md
    YAML frontmatter (`name`, `tier`, `description`), emits `INDEX.md` (flat table:
    `| skill | tier | trigger |`). WARN if any SKILL.md is newer (mtime) than its CHANGELOG.md.
    Run it at the end and commit the generated INDEX.md.
@@ -88,7 +88,7 @@ Every skill also gets `CHANGELOG.md`:
 - Skills are markdown + references/; agent is the runtime.
 
 ## Verify before opening PR
-- Run `python3 gen-index.py` — INDEX.md generated, no SKILL.md newer than its CHANGELOG.
+- Run `python3 refresh-skills-index.py` — INDEX.md generated, no SKILL.md newer than its CHANGELOG.
 - Each SKILL.md has valid frontmatter + all 5 body sections + Non-use note.
 - Each has CHANGELOG.md with v1.0.0 + DECISION + MODEL.
 - `git status` clean of secrets.

@@ -19,7 +19,7 @@ env: macos>=12
 4. Add `DECISION:` with the constraint and reason for the chosen approach.
 5. Add `MODEL:` naming the model or agent combination used to validate the entry.
 6. Add `REJECTED:` with any meaningful alternative considered and why it was not selected.
-7. Update the changelog whenever the skill or project changes, then run `python3 gen-index.py` after any skill metadata change.
+7. Update the changelog whenever the skill or project changes, then run `python3 refresh-skills-index.py` after any skill metadata change.
 8. Review the diff to ensure the paper trail contains no work IP, secrets, endpoints, schemas, or client data.
 
 ## Pitfalls
@@ -29,7 +29,7 @@ env: macos>=12
 - DON'T copy employer-derived details into the personal repository.
 
 ## Verify
-- Run `python3 gen-index.py` and assert every changed skill or project has an adjacent `CHANGELOG.md` entry containing a versioned date plus `ADDED:` or `CHANGED:`, `DECISION:`, `MODEL:`, and any applicable `REJECTED:` line.
+- Run `python3 refresh-skills-index.py` and assert every changed skill or project has an adjacent `CHANGELOG.md` entry containing a versioned date plus `ADDED:` or `CHANGED:`, `DECISION:`, `MODEL:`, and any applicable `REJECTED:` line.
 
 ## Non-use / Scope
 - Do not use this workflow to record a reasonless "updated file" entry, and do not place decision history in the `SKILL.md` body.
