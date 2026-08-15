@@ -18,6 +18,11 @@ env: macos>=12
 - `codex` — dispatch as OpenAI Codex CLI agents (Hermes skill; not yet in this repo).
 - `subagent-driven-development` — context-budget and parallel-worktree mechanics (Hermes skill; not yet in this repo).
 
+## Design decisions (why this skill is structured this way)
+- **One coordinating skill, not three.** Implementer and reviewer are ROLES (prompts + swappable model assignments in Step 7), not separate skills. The coordination value — the shared canonical brief, the 2-round cap, the owner sign-off gate, the MR-thread discipline — is cross-cutting state that must NOT be passed across files where it can drift. Splitting into implementer/reviewer/coordinator skills would add integration risk for no new capability. Extract a standalone `dev/code-review` skill ONLY if reviewing non-orchestrated PRs becomes a real need.
+- **Principle-led review, not a checklist.** A mandated question-list produces ritual compliance (boilerplate hitting each box) rather than judgment — the exact AI-spiral failure this skill targets. We adopt Google's eng-practices standard (CC BY 3.0) and let the reviewer write one honest verdict, anchored to the runnable spec.
+- **Spec is the definition of "correct."** The owner-approved TDD artifact (via tdd-gate) is what "done" means, reviewed before any code — so agents build/validate the correct thing instead of reinterpreting a prose brief.
+
 ## Steps
 1. Decompose the request by **architectural seam, not size**. Parallelize only independent pieces that cannot conflict (separate worktrees/files); serialize dependent tasks. If a task comfortably fits one agent's context, keep it as one agent — splitting a small task is itself over-engineering. Produce bounded tasks, acceptance checks, and role ownership.
 2. Author **one canonical task brief** (Goal / Constraints / Out-of-scope) plus an **executable spec (TDD artifact)** as the single source of truth. The executable spec is a committed, runnable test or assertion list — produced via the `tdd-gate` skill — that fails before implementation and passes only when the task is correctly built. This artifact, not the prose brief, is the definition of "correct." The brief's positive and negative use cases become the spec's test cases.
