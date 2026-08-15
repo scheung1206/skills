@@ -1,5 +1,11 @@
 # orchestration — Changelog
 
+## v1.2.0 — 2026-08-14 (in-flight, pending merge)
+- ADDED: "Parallel execution (autonomous fan-out)" subsection (under Step 1). When Step 1 yields seam-independent pieces, fan them out as background leaf sub-agents (via `delegate_task` tasks list), each with pre-declared non-overlapping file ownership. Concurrency capped by `delegation.max_concurrent_children` (default 3). Depth=1 (leaves). Owner sign-off (Step 3) + TDD spec (Step 2) precede fan-out; fan-in verifies actual disk output (trust-but-verify), then a single centralized sequential review (Steps 6/9/10) with the 2-round cap (Step 11). Review does NOT parallelize.
+- DECISION: Parallelism belongs on the conflict-free implementation leg, not review. Review needs the whole picture and is cheap in calls, so it stays centralized/sequential. The 3-agent cap is a coordination budget, not a hard law — raise only with genuine independent seams. Pre-declared ownership is the contract that prevents silent overwrites (the #1 autonomous-agent-team failure).
+- REJECTED: parallel review (needs whole picture, cheap in calls), raising max_concurrent_children beyond real seam count (agents wait/collide), and fan-out without declared non-overlapping ownership (overwrite risk).
+- NOTE: Version stays v1.2.0 through PR iteration. Version increments ONLY after merge to main.
+
 ## v1.1.0 — 2026-08-14 (MERGED via #3)
 - CHANGED: Replaced the mandated 5-question reviewer checklist with Google's eng-practices reviewer standard (CC BY 3.0), adapted for AI agents. The reviewer judges "does this improve the task's outcome without degrading the system," in priority order: design → functionality → complexity/over-engineering → tests → naming/comments/style → context. Over-engineering is called out as the primary anti-spiral safeguard ("solve the problem we know needs solving now").
 - CHANGED: Reviewer delivers via spec-trace (each approved acceptance check: pass/fail + command run) + one honest verdict paragraph — not a per-question checklist. Granularity is MR change-set level, not per line. Blocking reserved for spec failure, constraint breach, or genuine over-engineering; everything else is a `Nit:`.
