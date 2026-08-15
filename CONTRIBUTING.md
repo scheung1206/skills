@@ -6,7 +6,7 @@
 2. Copy `SKILL-TEMPLATE.md` when available, then include the required frontmatter and the ordered `Trigger`, `Steps`, `Pitfalls`, `Verify`, and `Non-use / Scope` sections.
 3. Add an adjacent `CHANGELOG.md` with a semantic version, date, `ADDED:` or `CHANGED:`, `DECISION:`, `MODEL:`, and any meaningful `REJECTED:` alternative.
 4. Keep skills as Markdown plus optional sanitized `references/`; the agent is the runtime.
-5. Run `python3 gen-index.py` from the repository root and commit the generated `INDEX.md` with the skill.
+5. Run `python3 refresh-skills-index.py` from the repository root and commit the generated `INDEX.md` with the skill.
 6. Verify commands are assertable, inspect the diff for secrets or work IP, and open a PR for Stephen's review.
 
 ## Tiers and naming
