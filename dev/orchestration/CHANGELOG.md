@@ -1,6 +1,6 @@
 # orchestration — Changelog
 
-## v1.1.0 — 2026-08-14 (in-flight, pending merge)
+## v1.1.0 — 2026-08-14 (MERGED via #3)
 - CHANGED: Replaced the mandated 5-question reviewer checklist with Google's eng-practices reviewer standard (CC BY 3.0), adapted for AI agents. The reviewer judges "does this improve the task's outcome without degrading the system," in priority order: design → functionality → complexity/over-engineering → tests → naming/comments/style → context. Over-engineering is called out as the primary anti-spiral safeguard ("solve the problem we know needs solving now").
 - CHANGED: Reviewer delivers via spec-trace (each approved acceptance check: pass/fail + command run) + one honest verdict paragraph — not a per-question checklist. Granularity is MR change-set level, not per line. Blocking reserved for spec failure, constraint breach, or genuine over-engineering; everything else is a `Nit:`.
 - CHANGED: Added owner sign-off gate before dispatch (Step 3, with positive+negative use cases + executable spec), TDD correctness spec as the definition of "correct" (Steps 2/4/6, via tdd-gate), hard two-round review cap escalating to owner (Step 11), seam-not-size decomposition (Step 1), and post-merge learning loop (Step 14).
@@ -9,7 +9,7 @@
 - MODEL: validated against the orchestrator/implementer/reviewer pattern; model assignments remain swappable example configurations in SKILL.md.
 - REJECTED: per-file/per-line review enumeration (spiral risk), auto-merging after round 2 (removes owner from the loop), splitting tasks by size rather than seam (integration risk), the 5-box mandated checklist (ritual compliance), and **splitting orchestration into 3 separate skills (implementer / reviewer / coordinator)**.
 - DECISION (skill structure): Keep orchestration as ONE coordinating skill. Implementer and reviewer are ROLES (prompts + swappable model assignments), not separate skills. The cross-cutting state — shared canonical brief, 2-round cap, owner sign-off gate, MR-thread discipline — is the coordination value and must not be passed across files where it can drift. Extract a standalone `dev/code-review` skill ONLY if/when reviewing non-orchestrsated PRs becomes a real need; do not preemptively split.
-- NOTE: Version stays v1.1.0 through PR iteration. Version increments ONLY after merge to main.
+- NOTE: Version incremented to v1.1.0 upon merge to main (PR #3).
 
 ## v1.0.0 — 2026-08-06
 - ADDED: Role-separated orchestration (orchestrator / implementer / independent reviewer), explicit
